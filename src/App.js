@@ -6,6 +6,7 @@ function App() {
   const [timeRemaining, setTimeRemaining] = React.useState(STARTING_TIME)
   const [isTimeRunning, setIsTimeRunning] = React.useState(false)
   const [wordCount, setWordCount] = React.useState(0)
+  const textAreaRef = React.useRef(null)
 
   function handleChange(event){
     const {value} = event.target
@@ -35,6 +36,8 @@ function App() {
       setIsTimeRunning(true)
       setTimeRemaining(STARTING_TIME)
       setText(" ")
+      textAreaRef.current.disabled = false
+      textAreaRef.current.focus()
   }
 
   function endGame(){
@@ -50,7 +53,8 @@ function App() {
       <textarea 
       onChange={handleChange}
       value={text}
-      disabled={!isTimeRunning}></textarea>
+      disabled={!isTimeRunning}
+      ref={textAreaRef}></textarea>
       <h4>Time remaining: {timeRemaining} </h4>
       <button onClick={startGame}
       disabled={isTimeRunning}>Start</button>
