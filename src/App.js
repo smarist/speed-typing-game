@@ -13,7 +13,6 @@ function App() {
     setText(value)
   }
 
-  console.log(text)
   
   function calculateWordCount(text){
     const wordsArr = text.trim().split(" ")
