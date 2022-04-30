@@ -1,9 +1,11 @@
 import React from "react";
 
 function App() {
+  const STARTING_TIME = 10
   const [text, setText] = React.useState("")
-  const [timeRemaining, setTimeRemaining] = React.useState(5)
+  const [timeRemaining, setTimeRemaining] = React.useState(STARTING_TIME)
   const [isTimeRunning, setIsTimeRunning] = React.useState(false)
+  const [wordCount, setWordCount] = React.useState(0)
 
   function handleChange(event){
     const {value} = event.target
@@ -17,12 +19,7 @@ function App() {
     return wordsArr.filter(word => word !== "").length
   }
 
-  function startCountDown(){
-    return(
-      setIsTimeRunning(true)
-    )
-    
-  }
+ 
   
   React.useEffect(()=> {
     if(timeRemaining > 0 && isTimeRunning){
@@ -30,9 +27,22 @@ function App() {
         setTimeRemaining(time => time - 1)
       },1000)
     }else if (timeRemaining === 0){
-        setIsTimeRunning(false)
+        endGame()
     }
   }, [timeRemaining, isTimeRunning])
+
+  function startGame(){
+      setIsTimeRunning(true)
+      setTimeRemaining(STARTING_TIME)
+      setText(" ")
+  }
+
+  function endGame(){
+        setIsTimeRunning(false)
+        setWordCount(calculateWordCount(text))
+  }
+  
+
 
   return (
     <div className="App">
@@ -41,8 +51,9 @@ function App() {
       onChange={handleChange}
       value={text}></textarea>
       <h4>Time remaining: {timeRemaining} </h4>
-      <button onClick={startCountDown}>Start</button>
-      <h1>Word Count: ???</h1>
+      <button onClick={startGame}
+      disabled={isTimeRunning}>Start</button>
+      <h1>Word Count: {wordCount}</h1>
     </div>
   );
 } 
